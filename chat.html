@@ -1,0 +1,111 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Simple Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #f2f2f2;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+    }
+    .chat-container {
+      width: 400px;
+      background: #fff;
+      border-radius: 10px;
+      box-shadow: 0 4px 8px rgba(0,0,0,0.2);
+      display: flex;
+      flex-direction: column;
+      overflow: hidden;
+    }
+    .chat-box {
+      flex: 1;
+      padding: 10px;
+      overflow-y: auto;
+    }
+    .message {
+      margin: 8px 0;
+      padding: 8px 12px;
+      border-radius: 6px;
+      max-width: 80%;
+    }
+    .user {
+      background: #d1e7dd;
+      align-self: flex-end;
+    }
+    .bot {
+      background: #f8d7da;
+      align-self: flex-start;
+    }
+    .input-box {
+      display: flex;
+      border-top: 1px solid #ccc;
+    }
+    .input-box input {
+      flex: 1;
+      padding: 10px;
+      border: none;
+      outline: none;
+    }
+    .input-box button {
+      padding: 10px 15px;
+      border: none;
+      background: #007bff;
+      color: white;
+      cursor: pointer;
+    }
+    .input-box button:hover {
+      background: #0056b3;
+    }
+  </style>
+</head>
+<body>
+  <div class="chat-container">
+    <div class="chat-box" id="chatBox"></div>
+    <div class="input-box">
+      <input type="text" id="userInput" placeholder="Type your message...">
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      const inputField = document.getElementById("userInput");
+      const message = inputField.value.trim();
+      if (!message) return;
+
+      addMessage(message, "user");
+      inputField.value = "";
+
+      try {
+        const response = await fetch("http://127.0.0.1:5000/chat", {
+          method: "POST",
+          headers: { "Content-Type": "application/json" },
+          body: JSON.stringify({ message: message })
+        });
+
+        const data = await response.json();
+        if (data.reply) {
+          addMessage(data.reply, "bot");
+        } else {
+          addMessage("⚠️ Error: No reply from server", "bot");
+        }
+      } catch (error) {
+        addMessage("⚠️ Server error: " + error, "bot");
+      }
+    }
+
+    function addMessage(text, sender) {
+      const chatBox = document.getElementById("chatBox");
+      const msg = document.createElement("div");
+      msg.className = "message " + sender;
+      msg.innerText = text;
+      chatBox.appendChild(msg);
+      chatBox.scrollTop = chatBox.scrollHeight;
+    }
+  </script>
+</body>
+</html>

@@ -1,0 +1,15 @@
+# Python
+__pycache__/
+*.pyc
+
+# Virtual environment
+venv/
+
+# Model and artifacts (optional, since they're large — you can re-train)
+*.h5
+*.keras
+*.pickle
+
+# OS files
+.DS_Store
+Thumbs.db

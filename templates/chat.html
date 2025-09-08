@@ -1,0 +1,139 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <title>Chatbot</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background: #121212;
+      color: #f4f4f9;
+      display: flex;
+      justify-content: center;
+      align-items: center;
+      height: 100vh;
+      margin: 0;
+    }
+    #chatbox {
+      width: 60%;
+      max-width: 800px;
+      background: #1e1e1e;
+      padding: 20px;
+      border-radius: 12px;
+      box-shadow: 0px 0px 20px rgba(0,0,0,0.6);
+      display: flex;
+      flex-direction: column;
+    }
+    h2 {
+      margin: 0 0 10px;
+      text-align: center;
+      color: #00ffcc;
+    }
+    #messages {
+      flex-grow: 1;
+      height: 400px;
+      overflow-y: auto;
+      border: 1px solid #333;
+      padding: 10px;
+      border-radius: 8px;
+      background: #181818;
+      margin-bottom: 10px;
+      scroll-behavior: smooth;
+      display: flex;
+      flex-direction: column;
+    }
+    .bubble {
+      max-width: 70%;
+      padding: 10px 15px;
+      margin: 5px;
+      border-radius: 15px;
+      line-height: 1.4;
+      animation: fadeIn 0.3s ease-in;
+    }
+    .user {
+      align-self: flex-end;
+      background: #4da6ff;
+      color: white;
+      border-bottom-right-radius: 2px;
+    }
+    .bot {
+      align-self: flex-start;
+      background: #00cc88;
+      color: white;
+      border-bottom-left-radius: 2px;
+    }
+    input {
+      flex-grow: 1;
+      padding: 10px;
+      border: none;
+      border-radius: 8px;
+      outline: none;
+      background: #2a2a2a;
+      color: #f4f4f9;
+    }
+    button {
+      padding: 10px 15px;
+      margin-left: 10px;
+      border: none;
+      border-radius: 8px;
+      background: #00ffcc;
+      color: #121212;
+      font-weight: bold;
+      cursor: pointer;
+      transition: background 0.3s;
+    }
+    button:hover {
+      background: #00e6b8;
+    }
+    #inputArea {
+      display: flex;
+      margin-top: auto;
+    }
+    @keyframes fadeIn {
+      from { opacity: 0; transform: translateY(5px); }
+      to { opacity: 1; transform: translateY(0); }
+    }
+  </style>
+</head>
+<body>
+  <div id="chatbox">
+    <h2>Chat with Bot 🤖</h2>
+    <div id="messages"></div>
+    <div id="inputArea">
+      <input type="text" id="userInput" placeholder="Type your message..." />
+      <button onclick="sendMessage()">Send</button>
+    </div>
+  </div>
+
+  <script>
+    async function sendMessage() {
+      let userInput = document.getElementById("userInput");
+      let message = userInput.value.trim();
+      if (!message) return;
+
+      let messages = document.getElementById("messages");
+      messages.innerHTML += "<div class='bubble user'>" + message + "</div>";
+
+      let response = await fetch("/chat", {
+        method: "POST",
+        headers: { "Content-Type": "application/json" },
+        body: JSON.stringify({ message: message })
+      });
+
+      let data = await response.json();
+      messages.innerHTML += "<div class='bubble bot'>" + data.reply + "</div>";
+
+      userInput.value = "";
+      messages.scrollTop = messages.scrollHeight;
+    }
+
+    // Allow Enter key to send message
+    document.getElementById("userInput").addEventListener("keydown", function(event) {
+      if (event.key === "Enter") {
+        sendMessage();
+      }
+    });
+  </script>
+</body>
+</html>
+
