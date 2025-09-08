@@ -3,10 +3,6 @@
 A simple AI-powered chatbot built with TensorFlow/Keras and served via a Flask API.
 It responds to user queries based on predefined intents stored in intents.json.
 
-📸 Demo
-
-(You can add a screenshot or GIF here once your chatbot is running.)
-
 📂 Project Structure
 chatbot-project/
 │
@@ -122,3 +118,4 @@ Add context handling for multi-turn conversations.
 📜 License
 
 This project is open-source under the MIT License.
+
