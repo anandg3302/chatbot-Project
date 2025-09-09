@@ -4,18 +4,40 @@ A simple AI-powered chatbot built with TensorFlow/Keras and served via a Flask A
 It responds to user queries based on predefined intents stored in intents.json.
 
 📂 Project Structure
+
 chatbot-project/
+
+
 │
 ├── intents.json              # Training data (intents, patterns, responses)
+
+
 ├── train_chatbot.py          # Script to train the chatbot model
+
+
 ├── app.py                    # Flask API to serve chatbot responses
+
+
 ├── chat.html                 # Simple frontend for chatting
+
+
 ├── tokenizer.pickle          # Saved tokenizer (generated after training)
+
+
 ├── label_encoder.pickle      # Saved label encoder (generated after training)
+
+
 ├── responses.pickle          # Saved responses dictionary
+
+
 ├── chat_model.keras          # Trained chatbot model (new format)
+
+
 ├── chat_model.h5             # Trained chatbot model (legacy format)
+
+
 └── venv/                     # Virtual environment (not pushed to GitHub)
+
 
 ⚙️ Installation
 
@@ -79,18 +101,33 @@ It provides a simple UI to interact with your chatbot.
 intents.json defines training data:
 
 {
+
+
   "intents": [
+
+  
     {
+    
       "tag": "greeting",
+      
       "patterns": ["Hi", "Hello", "Hey"],
+      
       "responses": ["Hello!", "Hi there!", "Hey! How can I help?"]
+      
     },
+    
     {
+    
       "tag": "goodbye",
+      
       "patterns": ["Bye", "See you later"],
+      
       "responses": ["Goodbye!", "See you soon!"]
+      
     }
+    
   ]
+  
 }
 
 🛠 Tech Stack
@@ -118,5 +155,6 @@ Add context handling for multi-turn conversations.
 📜 License
 
 This project is open-source under the MIT License.
+
 
 
